@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>钟表</title>
+</head>
+<body>
+    <!-- <div class="comparison"></div> -->
+    <div class="clock">
+        <div class="plate"></div>
+        <div class="hourHand"></div>
+        <div class="minuteHand"></div>
+        <div class="secondHand"></div>
+    </div>
+    <!-- <div class="comparison"></div> -->
+</body>
+</html>
+<style>
+    .clock {
+        width:300px;
+        height:300px;
+        border: 5px solid gray;
+        position: relative;
+        /* top: 30px;
+        left:20px; */
+        /* background-color: red; */
+    }
+    .plate {
+        width: 300px;
+        height: 300px;
+        border-radius:50%;
+        mask:radial-gradient(transparent 145px,red 0); 
+        background: repeating-conic-gradient(#333 0 1deg,transparent 0deg 30deg);
+    }
+    .hourHand {
+        width: 4px;
+        height: 70px;
+        background-color: black;
+    }
+    .minuteHand {
+        width: 3px;
+        height: 90px;
+        background-color: green;
+    }
+    .secondHand {
+        width: 2px;
+        height: 110px;
+        background-color: blue;
+    }
+/* 指针样式，在时钟中间居中显示 */
+    .hourHand,.minuteHand,.secondHand {
+        position: absolute;
+        bottom: 50%;
+        left:50%;
+        transform-origin: bottom center;
+        transform: translate(-50%,0);
+        
+        /* 这个值默认是在元素的中心点，就是（center，center） */
+    }
+    .comparison {
+        width:300px;
+        height:300px;
+        background-color: black;
+    }
+</style>
+<script>
+    //获取三个元素
+    var hourElement = document.querySelector('.hourHand');
+    var minuteElement = document.querySelector('.minuteHand');
+    var secondElement = document.querySelector('.secondHand');
+
+    //定义元素转动函数
+    function updateTime(){
+        //获取当前时间
+        var now = new Date();
+        // console.log(now);
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+        // console.log("hour"+hours+"minute"+minutes+"second"+seconds);
+        //定义每个指针转动的角度
+        var hourDegrees = (hours*360/12)+(minutes*360/12/60);
+        var minuteDegrees = (minutes*360/60)+(seconds*360/60/60); 
+        var secondDegrees = seconds*360/60;
+
+        //让指针转动到特定角度
+        hourElement.style.transform = 'rotate('+ hourDegrees+'deg)';
+        minuteElement.style.transform = 'rotate('+minuteDegrees+'deg)';
+        secondElement.style.transform = 'rotate('+secondDegrees+'deg)';
+    }
+
+    // 设置执行时间
+    setInterval(updateTime,100);
+</script>
